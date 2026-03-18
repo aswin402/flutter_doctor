@@ -17,6 +17,7 @@ void main(List<String> arguments) async {
     ..addFlag('no-dead-code', negatable: false, help: 'Skip dead code pass')
     ..addOption('diff', help: 'Scan only changed files vs branch')
     ..addFlag('fix', negatable: false, help: 'Open AI fix mode')
+    ..addFlag('no-md', negatable: false, help: 'Skip NEEDEDFIX.md generation')
     ..addFlag('help', abbr: 'h', negatable: false, help: 'Show usage');
 
   ArgResults results;
@@ -84,6 +85,21 @@ void main(List<String> arguments) async {
   final reporter = Reporter(verbose: results['verbose'] as bool);
   await reporter.generateReport(
       diagnostics, detector, score, errors, warnings, deadCode, fileCount);
+
+  if (!(results['no-md'] as bool)) {
+    await reporter.generateMarkdownReport(
+      projectPath: projectPath,
+      diagnostics: diagnostics,
+      detector: detector,
+      score: score,
+      errors: errors,
+      warnings: warnings,
+      deadCode: deadCode,
+      fileCount: fileCount,
+    );
+    print('');
+    print('📄 NEEDEDFIX.md → $projectPath/NEEDEDFIX.md');
+  }
 
   exit(score < 75 ? 1 : 0);
 }

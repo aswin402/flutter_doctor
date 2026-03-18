@@ -1,6 +1,6 @@
 name: flutter_doctor
 description: A CLI tool that analyzes Flutter projects and outputs rich animated terminal health reports.
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/your-org/flutter_doctor
 
 environment:

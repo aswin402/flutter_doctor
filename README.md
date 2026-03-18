@@ -11,7 +11,8 @@
 - **Lint diagnostics** table indicating ERR (red) / WARN (yellow), rule names (cyan), and file paths (gray).
 - **Dead code detection** highlighting unused files, exports, and duplicates.
 - **Health score box** with box-drawing chars, dynamic bar fill, color-coded health labels, and scoring formula `100 - (ERR×3 + WARN + DEAD)`.
-- **CLI flags** `--verbose`, `--score`, `--no-lint`, `--no-dead-code`, `--diff`, and `--fix` (stub).
+- **CLI flags** `--verbose`, `--score`, `--no-lint`, `--no-dead-code`, `--diff`, `--fix` (stub), and `--no-md`.
+- **NEEDEDFIX.md generation** automatically creates a report for AI agents to fix issues.
 - **Config parser** capable of reading ignored rules and files from `flutter_doctor.config.json` or `pubspec.yaml:flutterDoctor`.
 - **CI ready** exit 1 if the overall score drops below 75.
 
@@ -39,8 +40,23 @@ flutter_doctor . --verbose            # file:line details
 flutter_doctor . --score              # JSON score for CI
 flutter_doctor . --no-lint            # skip linting pass
 flutter_doctor . --no-dead-code       # skip dead code pass
+flutter_doctor . --no-md --verbose      # skip NEEDEDFIX.md generation
 flutter_doctor . --diff main          # scan changed files only (stub)
 flutter_doctor . --fix                # AI fix mode (stub)
+```
+
+### AI Agent Workflow
+
+`flutter_doctor` automatically generates a `NEEDEDFIX.md` file in your project root. You can provide this file to an AI agent to fix all issues:
+
+1. Run `flutter_doctor . --verbose`
+2. Open `NEEDEDFIX.md` and copy the "Priority Fixes" section
+3. Paste it to your AI agent with: "Read NEEDEDFIX.md and fix all issues"
+
+**Note:** Add `NEEDEDFIX.md` to your `.gitignore`:
+```text
+# flutter_doctor
+NEEDEDFIX.md
 ```
 
 ## Config Example
